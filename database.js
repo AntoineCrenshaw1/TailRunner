@@ -31,7 +31,7 @@ async function GetAllPetOwners(){
 async function GetPetOwnerById(id){
   const db = await connectToDatabase();
     const user = await db.collection('PetOwners').findOne({_id: id});
-    //debugDb(`User: ${JSON.stringify(user)}`);
+   
     return user;
   
 }
@@ -55,7 +55,6 @@ async function deletePetOwner(id){
   return dbResult;
 } 
 
-
 async function getOrderById(id){
   const db = await connectToDatabase();
    // debugDb(`ID: ${id}`);
@@ -70,23 +69,48 @@ async function addOrder(order){
     return dbResult;
 }
 
+<<<<<<< HEAD
 async function getUserByEmail(email){
   const db = await connectToDatabase();
   return await db.collection('Users').findOne({email: email});
 }
 
+=======
+>>>>>>> f49765ccfe23a77bf44c5adf43c455fad53c1c73
 async function registerUser(user){
   const db = await connectToDatabase();
   const dbResult = await db.collection('Users').insertOne(user);
   return dbResult;
 }
 
+<<<<<<< HEAD
+=======
+async function getUserByEmail(email){
+  const db = await connectToDatabase();
+  const user = await db.collection('Users').findOne({email: email});
+  return user;
+}
+
+>>>>>>> f49765ccfe23a77bf44c5adf43c455fad53c1c73
 async function saveAuditLog(log){
   const db = await connectToDatabase();
   const dbResult = await db.collection('AuditLog').insertOne(log);
   return dbResult;
 }
 
+<<<<<<< HEAD
 ping();
 
 export{GetAllPetOwners, GetPetOwnerById, addPetOwner, updatePetOwner, deletePetOwner, addOrder, getOrderById, getUserByEmail, registerUser, saveAuditLog};
+=======
+async function findRoleByName(roleName){
+  const db = await connectToDatabase();
+  const role = await db.collection('Role').findOne({name: roleName});
+  return role;
+}
+
+ping();
+
+export{GetAllPetOwners, GetPetOwnerById, addPetOwner,
+  getUserByEmail, updatePetOwner, deletePetOwner, addOrder, getOrderById, registerUser, saveAuditLog, findRoleByName};
+>>>>>>> f49765ccfe23a77bf44c5adf43c455fad53c1c73

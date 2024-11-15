@@ -1,6 +1,11 @@
 /**
+<<<<<<< HEAD
 * Template Name: Arsha
 * Template URL: https://bootstrapmade.com/arsha-free-bootstrap-html-template-corporate/
+=======
+* Template Name: QuickStart
+* Template URL: https://bootstrapmade.com/quickstart-bootstrap-startup-website-template/
+>>>>>>> f49765ccfe23a77bf44c5adf43c455fad53c1c73
 * Updated: Aug 07 2024 with Bootstrap v5.3.3
 * Author: BootstrapMade.com
 * License: https://bootstrapmade.com/license/
@@ -110,6 +115,18 @@
   });
 
   /**
+<<<<<<< HEAD
+=======
+   * Frequently Asked Questions Toggle
+   */
+  document.querySelectorAll('.faq-item h3, .faq-item .faq-toggle').forEach((faqItem) => {
+    faqItem.addEventListener('click', () => {
+      faqItem.parentNode.classList.toggle('faq-active');
+    });
+  });
+
+  /**
+>>>>>>> f49765ccfe23a77bf44c5adf43c455fad53c1c73
    * Init swiper sliders
    */
   function initSwiper() {
@@ -129,6 +146,7 @@
   window.addEventListener("load", initSwiper);
 
   /**
+<<<<<<< HEAD
    * Frequently Asked Questions Toggle
    */
   document.querySelectorAll('.faq-item h3, .faq-item .faq-toggle').forEach((faqItem) => {
@@ -188,6 +206,8 @@
   });
 
   /**
+=======
+>>>>>>> f49765ccfe23a77bf44c5adf43c455fad53c1c73
    * Correct scrolling position upon page load for URLs containing hash links.
    */
   window.addEventListener('load', function(e) {
