@@ -1,14 +1,18 @@
 import express from 'express';
-import { GetAllPetOwners, GetPetOwnerById, addPetOwner, updatePetOwner, deletePetOwner } from '../../database.js';
+import { GetAllPetOwners, GetPetOwnerById, addPetOwner, updatePetOwner, deletePetOwner, saveAuditLog } from '../../database.js';
 import { validId } from '../../middleware/validId.js';
+import { isLoggedIn } from '@merlin4/express-auth';
 import debug from 'debug';
 const debugDogOwner = debug('app:DogOwner');
 
 const router = express.Router();
 
 //Get all Pet Owners
-router.get('', (req, res) => {
+router.get('', isLoggedIn(), (req, res,) => {
   GetAllPetOwners().then((owners)=>{
+    if(req.auth){
+      debugDogOwner(req.auth.email);
+    }
     res.status(200).json(owners);
   }).catch((error)=>{
     res.status(500).send(error);
@@ -38,6 +42,13 @@ router.post('', async (req,res)=>{
   else{
     try{
       const result = await addPetOwner(owner);
+      const log = {
+        Timestamp: new Date(),
+        operation: 'Add',
+        collection: 'PetOwners',
+        authorizedBy: req.auth.email,
+      }
+      await saveAuditLog(log);
       res.status(201).json({message:'New Owner Added'});
     }catch(error){
       res.status(500).send(error);
@@ -79,6 +90,14 @@ router.patch('/:id', async (req,res)=>{
     //Update the owner in the DB
     try{
       const result = await updatePetOwner(currentOwner);
+      const log = {
+        Timestamp: new Date(),
+        operation: 'Edit',
+        change: JSON.stringify(updatedOwner),
+        collection: 'PetOwners',
+        authorizedBy: req.auth.email,
+      }
+      await saveAuditLog(log);
       res.status(200).json({message:'Owner Updated'});
     }catch(error){
       res.status(500).send(error);
@@ -124,7 +143,17 @@ router.post('/:userId/wishList/:wishListId', validId('userId'), validId('wishLis
 
 //Get Wish List
 router.get('/:userId/wishList', async (req,res)=>{
-
+  const userId = req.params.userId;
+  try{
+    const currentOwner = await GetPetOwnerById(userId);
+    if(JSON.stringify(currentOwner) === '{}' || currentOwner === null){
+      res.status(404).send('Owner not found');
+    }else{
+      res.status(200).json(currentOwner.wishList);
+    }
+  }catch(error){
+    res.status(500).send(error);
+  }
 });
 
 

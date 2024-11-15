@@ -70,6 +70,23 @@ async function addOrder(order){
     return dbResult;
 }
 
+async function getUserByEmail(email){
+  const db = await connectToDatabase();
+  return await db.collection('Users').findOne({email: email});
+}
+
+async function registerUser(user){
+  const db = await connectToDatabase();
+  const dbResult = await db.collection('Users').insertOne(user);
+  return dbResult;
+}
+
+async function saveAuditLog(log){
+  const db = await connectToDatabase();
+  const dbResult = await db.collection('AuditLog').insertOne(log);
+  return dbResult;
+}
+
 ping();
 
-export{GetAllPetOwners, GetPetOwnerById, addPetOwner, updatePetOwner, deletePetOwner, addOrder, getOrderById};
+export{GetAllPetOwners, GetPetOwnerById, addPetOwner, updatePetOwner, deletePetOwner, addOrder, getOrderById, getUserByEmail, registerUser, saveAuditLog};
